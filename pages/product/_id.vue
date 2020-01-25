@@ -2,6 +2,7 @@
   <div class="container">
     <div>
       <h1 class="title">{{ title }}</h1>
+      {{ data }}
     </div>
   </div>
 </template>
@@ -9,9 +10,12 @@
 <script>
 export default {
   layout: 'custom',
-  asyncData({ params }) {
+  async asyncData({ app, params }) {
+    const { data } = await app.$service.get('albums')
+
     return {
-      title: `Product ${params.id}`
+      title: `Product ${params.id}`,
+      data
     }
   },
   validate({ params }) {

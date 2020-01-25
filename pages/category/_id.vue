@@ -2,6 +2,7 @@
   <div class="container">
     <div>
       <h1 class="title">{{ title }}</h1>
+      {{ data }}
     </div>
   </div>
 </template>
@@ -9,9 +10,12 @@
 <script>
 export default {
   layout: 'custom',
-  asyncData({ params }) {
+  async asyncData({ app, params }) {
+    const { data } = await app.$service.get('posts')
+
     return {
-      title: `Category ${params.id}`
+      title: `Category ${params.id}`,
+      data
     }
   },
   validate({ params }) {
