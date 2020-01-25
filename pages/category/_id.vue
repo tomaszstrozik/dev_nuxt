@@ -9,10 +9,14 @@
 <script>
 export default {
   layout: 'custom',
-  asyncData() {
+  asyncData({ params }) {
     return {
-      title: 'Category'
+      title: `Category ${params.id}`
     }
+  },
+  validate({ params }) {
+    // Must be a number
+    return /^\d+$/.test(params.id)
   }
 }
 </script>
