@@ -1,20 +1,19 @@
 <template>
   <div class="container">
     <div>
-      <h1 class="title">dev_nuxt</h1>
-      <h2 class="subtitle">Nuxt Devmeeting sample code</h2>
-      <div class="links">
-        <a href="https://nuxtjs.org/" target="_blank" class="button--green"
-          >Documentation</a
-        >
-      </div>
+      <h1 class="title">{{ title }}</h1>
     </div>
   </div>
 </template>
 
 <script>
 export default {
-  layout: 'custom'
+  layout: 'custom',
+  asyncData() {
+    return {
+      title: 'Category'
+    }
+  }
 }
 </script>
 
@@ -36,17 +35,5 @@ export default {
   font-size: 100px;
   color: #35495e;
   letter-spacing: 1px;
-}
-
-.subtitle {
-  font-weight: 300;
-  font-size: 42px;
-  color: #526488;
-  word-spacing: 5px;
-  padding-bottom: 15px;
-}
-
-.links {
-  padding-top: 15px;
 }
 </style>
