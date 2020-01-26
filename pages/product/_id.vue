@@ -1,21 +1,55 @@
 <template>
   <div class="container">
-    <div>
+    <div class="page-title">
       <h1 class="title">{{ title }}</h1>
-      {{ data }}
+    </div>
+    <div class="product-info">
+      <p>
+        {{ 'Category: '
+        }}<nuxt-link :to="`/category/${product.category}`">{{
+          product.category
+        }}</nuxt-link>
+      </p>
+      <p>Description: {{ product.description }}</p>
+      <p class="price">Price: {{ product.price }}</p>
+    </div>
+    <div class="promoted">
+      <ProductList :products="promotedProducts" title="Promoted products" />
     </div>
   </div>
 </template>
 
 <script>
+import ProductList from '@/components/ProductList'
+
 export default {
   layout: 'custom',
+  components: {
+    ProductList
+  },
   async asyncData({ app, params }) {
-    const { data } = await app.$service.get('albums')
+    const { id } = params
+    const { data: product } = await app.$service.get(`products/${id}`)
+    const { data: promotedProducts } = await app.$service.get(
+      `products?_page=2`
+    )
 
     return {
-      title: `Product ${params.id}`,
-      data
+      title: `Product - ${product.name}`,
+      product,
+      promotedProducts
+    }
+  },
+  head() {
+    return {
+      title: this.title,
+      meta: [
+        {
+          hid: 'description',
+          name: 'description',
+          content: this.product.description
+        }
+      ]
     }
   },
   validate({ params }) {
@@ -25,23 +59,26 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .container {
-  margin: 0 auto;
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
+  padding: 0 20px;
 }
 
-.title {
-  font-family: 'Quicksand', 'Source Sans Pro', -apple-system, BlinkMacSystemFont,
-    'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-  display: block;
-  font-weight: 300;
-  font-size: 100px;
-  color: #35495e;
-  letter-spacing: 1px;
+.page-title {
+  margin: 20px 0;
+}
+
+.product-info {
+  margin-bottom: 20px;
+  font-size: 20px;
+}
+
+.product-info p {
+  margin-bottom: 10px;
+}
+
+.price {
+  color: red;
+  font-weight: bold;
 }
 </style>
