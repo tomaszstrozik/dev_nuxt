@@ -20,6 +20,7 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
 import ProductList from '@/components/ProductList'
 
 export default {
@@ -27,17 +28,21 @@ export default {
   components: {
     ProductList
   },
+  computed: {
+    ...mapState(['promotedProducts'])
+  },
   async asyncData({ app, params }) {
     const { id } = params
     const { data: product } = await app.$service.get(`products/${id}`)
-    const { data: promotedProducts } = await app.$service.get(
-      `products?_page=2`
-    )
 
     return {
       title: `Product - ${product.name}`,
-      product,
-      promotedProducts
+      product
+    }
+  },
+  async fetch({ store }) {
+    if (!store.state.promotedProducts.length) {
+      await store.dispatch('getPromotedProducts')
     }
   },
   head() {
