@@ -1,6 +1,7 @@
 <template>
   <div class="container">
     <div>
+      <Navigation :links="categories" />
       <h1 class="title">dev_nuxt</h1>
       <h2 class="subtitle">Nuxt Devmeeting sample code</h2>
       <div class="links">
@@ -13,8 +14,25 @@
 </template>
 
 <script>
+import Navigation from '@/components/Navigation'
+
 export default {
-  layout: 'custom'
+  layout: 'custom',
+  components: {
+    Navigation
+  },
+  async asyncData({ app }) {
+    const { data: categoriesList } = await app.$service.get(
+      'categories?_page=1'
+    )
+
+    return {
+      categories: categoriesList.map((category) => ({
+        label: category.name,
+        path: `/category/${category.id}`
+      }))
+    }
+  }
 }
 </script>
 
