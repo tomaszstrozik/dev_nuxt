@@ -31,7 +31,7 @@ export default {
     const { id } = params
     const { data: product } = await app.$service.get(`products/${id}`)
     const { data: promotedProducts } = await app.$service.get(
-      `products?_page=2`
+      `products?promo=true`
     )
 
     return {

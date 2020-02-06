@@ -3,6 +3,9 @@
     <div class="page-title">
       <h1 class="title">{{ title }}</h1>
     </div>
+    <div class="product-list">
+      <ProductList :products="productList" title="Products" />
+    </div>
     <div class="promoted">
       <ProductList :products="promotedProducts" title="Promoted products" />
     </div>
@@ -19,13 +22,21 @@ export default {
   },
   async asyncData({ app, params }) {
     const { id } = params
-    // const { data: category } = await app.$service.get(`category/${id}`)
-    const { data: promotedProducts } = await app.$service.get(
-      `products?_page=2`
+
+    const { data: category } = await app.$service.get(`categories/${id}`)
+
+    const { data: productList } = await app.$service.get(
+      `products?category=${id}`
     )
+
+    const { data: promotedProducts } = await app.$service.get(
+      `products?promo=true`
+    )
+
     return {
       title: `Category - ${id}`,
-      // category
+      category,
+      productList,
       promotedProducts
     }
   },
@@ -33,17 +44,13 @@ export default {
     return {
       title: this.title,
       meta: [
-        // {
-        //   hid: 'description',
-        //   name: 'description',
-        //   content: this.category.description
-        // }
+        {
+          hid: 'description',
+          name: 'description',
+          content: this.category.description
+        }
       ]
     }
-  },
-  validate({ params }) {
-    // Must be a number
-    return /^\d+$/.test(params.id)
   }
 }
 </script>
