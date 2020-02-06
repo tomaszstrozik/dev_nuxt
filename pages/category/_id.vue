@@ -2,6 +2,7 @@
   <div class="container">
     <div class="page-title">
       <h1 class="title">{{ title }}</h1>
+      <h2>{{ counterValue }}</h2>
     </div>
     <div class="promoted">
       <ProductList :products="promotedProducts" title="Promoted products" />
@@ -10,12 +11,17 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
 import ProductList from '@/components/ProductList'
 
 export default {
   layout: 'custom',
   components: {
     ProductList
+  },
+  middleware: ['assign-counter'],
+  computed: {
+    ...mapState(['counterValue'])
   },
   async asyncData({ app, params }) {
     const { id } = params

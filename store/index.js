@@ -1,14 +1,19 @@
 export const state = () => ({
-  promotedProducts: []
+  promotedProducts: [],
+  counterValue: 0
 })
 
 const TYPES = {
-  SET_PROMOTED: 'SET_PROMOTED'
+  SET_PROMOTED: 'SET_PROMOTED',
+  SET_COUNTER_VALUE: 'SET_COUNTER_VALUE'
 }
 
 export const mutations = {
   [TYPES.SET_PROMOTED](state, promotedProducts) {
     state.promotedProducts = promotedProducts
+  },
+  [TYPES.SET_COUNTER_VALUE](state, value) {
+    state.counterValue = value
   }
 }
 
@@ -19,5 +24,8 @@ export const actions = {
     )
 
     commit(TYPES.SET_PROMOTED, promotedProducts)
+  },
+  setCounterValue({ commit }, value) {
+    commit(TYPES.SET_COUNTER_VALUE, value)
   }
 }

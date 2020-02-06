@@ -2,6 +2,7 @@
   <div class="container">
     <div class="page-title">
       <h1 class="title">{{ title }}</h1>
+      <h2>{{ counterValue }}</h2>
     </div>
     <div class="product-info">
       <p>
@@ -28,8 +29,9 @@ export default {
   components: {
     ProductList
   },
+  middleware: ['assign-counter'],
   computed: {
-    ...mapState(['promotedProducts'])
+    ...mapState(['promotedProducts', 'counterValue'])
   },
   async asyncData({ app, params }) {
     const { id } = params

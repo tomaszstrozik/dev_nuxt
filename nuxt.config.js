@@ -32,6 +32,10 @@ module.exports = {
       src: '@/plugins/inject-service'
     }
   ],
+  serverMiddleware: [
+    // Will register redirect-ssl npm package
+    '~/serverMiddleware/counter'
+  ],
   /*
    ** Nuxt.js dev-modules
    */
